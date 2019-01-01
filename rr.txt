@@ -1,0 +1,43 @@
+1 |2 |3 |4 |5 |6 |7 |8 |9 |10|11|12|13|14|15|16|17|18|19|20|21|22|
+  |  |A |A |A |A |B |B |A |A |C |C |D |D |B |A |A |E |D |D |A |D |
+      ^A    ^B    ^C ^D       ^E                                               
+
+process A:
+	arrival time: 3
+	burst time: 9
+	stay time: 19
+	response time: 0
+	waiting time: 10
+
+
+process B:
+	arrival time: 5
+	burst time: 3
+	stay time: 11
+	response time: 2
+	waiting time: 8
+
+
+process C:
+	arrival time: 7
+	burst time: 2
+	stay time: 6
+	response time: 4
+	waiting time: 4
+
+
+process D:
+	arrival time: 8
+	burst time: 5
+	stay time: 15
+	response time: 5
+	waiting time: 10
+
+
+process E:
+	arrival time: 11
+	burst time: 1
+	stay time: 8
+	response time: 7
+	waiting time: 7
+
