@@ -57,7 +57,7 @@ void round_robin(process_info* processes, int n, int q) {
             }
         }
         if (cur != NULL) {
-            fprintf(output, "%s |", cur->name);
+            fprintf(output, "%1s |", cur->name);
             if (cur->remaining == cur->burst) {
                 cur->response = t - cur->arrival;
             }
@@ -86,7 +86,7 @@ void round_robin(process_info* processes, int n, int q) {
     memset(st, ' ', 79);
     for (j = 0; j < n; j++) {
         char src[22];
-        sprintf(src, "^%s ", processes[j].name);
+        sprintf(src, "^%1s ", processes[j].name);
         memcpy(st + (processes[j].arrival - 1) * 3, src, 3);
     }
     fprintf(output, "%s\n", st);
