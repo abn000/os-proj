@@ -12,6 +12,12 @@ typedef struct {
     char name[20];
 } process_info;
 
+int compare (const void* a, const void* b) {
+    process_info* pa = *((process_info**) a);
+    process_info* pb = *((process_info**) b);
+    return pa->burst < pb->burst ? -1 : (pa->burst == pb->burst ? 0 : 1);
+}
+
 void round_robin(process_info* processes, int n, int q) {
     int t = 1;
     int rem = n;
@@ -76,7 +82,7 @@ void round_robin(process_info* processes, int n, int q) {
     char st[80];
     memset(st, ' ', 79);
     for (j = 0; j < n; j++) {
-        char src[10];
+        char src[22];
         sprintf(src, "^%s ", processes[j].name);
         memcpy(st + (processes[j].arrival - 1) * 3, src, 3);
     }
@@ -94,7 +100,79 @@ void round_robin(process_info* processes, int n, int q) {
 }
 
 void shortest_job_first(process_info* processes, int n) {
-    
+    int t = 1;
+    int rem = n;
+    int j;
+    int min_arr = -1;
+    int total_b = 0;
+    FILE *output = fopen("sjf.txt", "w");
+    for (j = 0; j < n; j++) {
+        processes[j].remaining = processes[j].burst;
+        total_b += processes[j].burst;
+        if (min_arr == -1 || min_arr > processes[j].arrival) {
+            min_arr = processes[j].arrival;
+        }
+    }
+
+    for (j = 1; j < total_b + min_arr; j++) {
+        fprintf(output, "%-2d|", j);
+    }
+    fprintf(output, "\n");
+    int f = 0;
+    int l = 0;
+    process_info* queue[50];
+    process_info* cur = NULL;
+
+    while (rem > 0) {
+        for (j = 0; j < n; j++) {
+            if (processes[j].arrival == t) {
+                queue[l++] = &processes[j];
+            }
+        }
+        qsort(&queue[f], l - f, sizeof(process_info*), compare);
+        if (cur == NULL) {
+            if (f < l) {
+                cur = queue[f++];
+            }
+        }
+        if (cur != NULL) {
+            fprintf(output, "%s |", cur->name);
+            if (cur->remaining == cur->burst) {
+                cur->response = t - cur->arrival;
+            }
+            cur->remaining--;
+            if (cur->remaining == 0) {
+                cur->stay = t - cur->arrival + 1;
+                cur->waiting = cur->stay - cur->burst;
+                cur = NULL;
+                rem--;
+            } 
+        } else {
+            fprintf(output, "  |");
+        } 
+        t++;
+    }
+    fprintf(output, "\n");
+
+    char st[80];
+    memset(st, ' ', 79);
+    for (j = 0; j < n; j++) {
+        char src[22];
+        sprintf(src, "^%s ", processes[j].name);
+        memcpy(st + (processes[j].arrival - 1) * 3, src, 3);
+    }
+    fprintf(output, "%s\n", st);
+
+    for (j = 0; j < n; j++) {
+        fprintf(output, "\nprocess %s:\n", processes[j].name);
+        fprintf(output, "\tarrival time: %d\n", processes[j].arrival);
+        fprintf(output, "\tburst time: %d\n", processes[j].burst);
+        fprintf(output, "\tstay time: %d\n", processes[j].stay);
+        fprintf(output, "\tresponse time: %d\n", processes[j].response);
+        fprintf(output, "\twaiting time: %d\n\n", processes[j].waiting);
+    }
+    fclose(output);
+
 }
 
 int main(int argc, char** argv) {
@@ -130,6 +208,8 @@ int main(int argc, char** argv) {
     }
     round_robin(processes, n, q);
     shortest_job_first(processes, n);
+
+    free(processes);
 
     return 0;
 }
