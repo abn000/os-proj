@@ -1,0 +1,44 @@
+1 |2 |3 |4 |5 |6 |7 |8 |9 |10|11|12|13|14|15|16|17|18|
+A |A |B |B |A |A |C |D |D |E |E |A |A |E |E |A |A |E |
+^A ^B ^C ^D ^E                                                                 
+cpu utilization: 100.00%
+
+process A:
+	arrival time: 1
+	burst time: 8
+	stay time: 17
+	response time: 0
+	waiting time: 9
+
+
+process B:
+	arrival time: 2
+	burst time: 2
+	stay time: 3
+	response time: 1
+	waiting time: 1
+
+
+process C:
+	arrival time: 3
+	burst time: 1
+	stay time: 5
+	response time: 4
+	waiting time: 4
+
+
+process D:
+	arrival time: 4
+	burst time: 2
+	stay time: 6
+	response time: 4
+	waiting time: 4
+
+
+process E:
+	arrival time: 5
+	burst time: 5
+	stay time: 14
+	response time: 5
+	waiting time: 9
+

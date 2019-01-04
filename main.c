@@ -23,22 +23,24 @@ void round_robin(process_info* processes, int n, int q) {
     int rem = n;
     int j;
     int min_arr = -1;
-    int total_b = 0;
+    int total = 0;
     FILE *output = fopen("rr.txt", "w");
     for (j = 0; j < n; j++) {
         processes[j].remaining = processes[j].burst;
-        total_b += processes[j].burst;
+        total += processes[j].burst;
         if (min_arr == -1 || min_arr > processes[j].arrival) {
             min_arr = processes[j].arrival;
         }
     }
+    total += min_arr;
 
-    for (j = 1; j < total_b + min_arr; j++) {
+    for (j = 1; j < total; j++) {
         fprintf(output, "%-2d|", j);
     }
     fprintf(output, "\n");
     int f = 0;
     int l = 0;
+    int c = 0;
     process_info* queue[50];
     process_info* cur = NULL;
 
@@ -74,6 +76,7 @@ void round_robin(process_info* processes, int n, int q) {
             }
         } else {
             fprintf(output, "  |");
+            c++;
         } 
         t++;
     }
@@ -87,6 +90,8 @@ void round_robin(process_info* processes, int n, int q) {
         memcpy(st + (processes[j].arrival - 1) * 3, src, 3);
     }
     fprintf(output, "%s\n", st);
+
+    fprintf(output, "cpu utilization: %.2f%%\n", 100.0 * (total - c) / total);
 
     for (j = 0; j < n; j++) {
         fprintf(output, "\nprocess %s:\n", processes[j].name);
@@ -104,22 +109,25 @@ void shortest_job_first(process_info* processes, int n) {
     int rem = n;
     int j;
     int min_arr = -1;
-    int total_b = 0;
+    int total = 0;
     FILE *output = fopen("sjf.txt", "w");
     for (j = 0; j < n; j++) {
         processes[j].remaining = processes[j].burst;
-        total_b += processes[j].burst;
+        total += processes[j].burst;
         if (min_arr == -1 || min_arr > processes[j].arrival) {
             min_arr = processes[j].arrival;
         }
     }
 
-    for (j = 1; j < total_b + min_arr; j++) {
+    total += min_arr;
+
+    for (j = 1; j < total; j++) {
         fprintf(output, "%-2d|", j);
     }
     fprintf(output, "\n");
     int f = 0;
     int l = 0;
+    int c = 0;
     process_info* queue[50];
     process_info* cur = NULL;
 
@@ -149,6 +157,7 @@ void shortest_job_first(process_info* processes, int n) {
             } 
         } else {
             fprintf(output, "  |");
+            c++;
         } 
         t++;
     }
@@ -162,6 +171,8 @@ void shortest_job_first(process_info* processes, int n) {
         memcpy(st + (processes[j].arrival - 1) * 3, src, 3);
     }
     fprintf(output, "%s\n", st);
+
+    fprintf(output, "cpu utilization: %.2f%%\n", 100.0 * (total - c) / total);
 
     for (j = 0; j < n; j++) {
         fprintf(output, "\nprocess %s:\n", processes[j].name);
