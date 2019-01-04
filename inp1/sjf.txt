@@ -1,7 +1,7 @@
-1 |2 |3 |4 |5 |6 |7 |8 |9 |10|11|12|13|14|15|16|17|18|19|20|21|22|
-  |  |A |A |A |A |A |A |A |A |A |E |C |C |B |B |B |D |D |D |D |D |
-      ^A    ^B    ^C ^D       ^E                                               
-cpu utilization: 91.30%
+0 |1 |2 |3 |4 |5 |6 |7 |8 |9 |10|11|12|13|14|15|16|17|18|19|20|21|22|
+  |  |  |A |A |A |A |A |A |A |A |A |E |C |C |B |B |B |D |D |D |D |D |
+         ^A    ^B    ^C ^D       ^E                                            
+cpu utilization: 86.96%
 
 process A:
 	arrival time: 3

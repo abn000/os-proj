@@ -19,7 +19,7 @@ int compare (const void* a, const void* b) {
 }
 
 void round_robin(process_info* processes, int n, int q) {
-    int t = 1;
+    int t = 0;
     int rem = n;
     int j;
     int min_arr = -1;
@@ -34,7 +34,7 @@ void round_robin(process_info* processes, int n, int q) {
     }
     total += min_arr;
 
-    for (j = 1; j < total; j++) {
+    for (j = 0; j < total; j++) {
         fprintf(output, "%-2d|", j);
     }
     fprintf(output, "\n");
@@ -87,7 +87,7 @@ void round_robin(process_info* processes, int n, int q) {
     for (j = 0; j < n; j++) {
         char src[22];
         sprintf(src, "^%1s ", processes[j].name);
-        memcpy(st + (processes[j].arrival - 1) * 3, src, 3);
+        memcpy(st + (processes[j].arrival) * 3, src, 3);
     }
     fprintf(output, "%s\n", st);
 
@@ -105,7 +105,7 @@ void round_robin(process_info* processes, int n, int q) {
 }
 
 void shortest_job_first(process_info* processes, int n) {
-    int t = 1;
+    int t = 0;
     int rem = n;
     int j;
     int min_arr = -1;
@@ -121,7 +121,7 @@ void shortest_job_first(process_info* processes, int n) {
 
     total += min_arr;
 
-    for (j = 1; j < total; j++) {
+    for (j = 0; j < total; j++) {
         fprintf(output, "%-2d|", j);
     }
     fprintf(output, "\n");
@@ -144,7 +144,7 @@ void shortest_job_first(process_info* processes, int n) {
             }
         }
         if (cur != NULL) {
-            fprintf(output, "%s |", cur->name);
+            fprintf(output, "%1s |", cur->name);
             if (cur->remaining == cur->burst) {
                 cur->response = t - cur->arrival;
             }
@@ -167,8 +167,8 @@ void shortest_job_first(process_info* processes, int n) {
     memset(st, ' ', 79);
     for (j = 0; j < n; j++) {
         char src[22];
-        sprintf(src, "^%s ", processes[j].name);
-        memcpy(st + (processes[j].arrival - 1) * 3, src, 3);
+        sprintf(src, "^%1s ", processes[j].name);
+        memcpy(st + (processes[j].arrival) * 3, src, 3);
     }
     fprintf(output, "%s\n", st);
 
