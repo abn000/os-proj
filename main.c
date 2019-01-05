@@ -105,12 +105,12 @@ void round_robin(process_info* processes, int n, int q) {
 }
 
 void shortest_job_first(process_info* processes, int n) {
-    int t = 0;
-    int rem = n;
-    int j;
-    int min_arr = -1;
-    int total = 0;
-    FILE *output = fopen("sjf.txt", "w");
+    int t = 0; //to keep track of the current processor time
+    int rem = n; //processes that haven't finished yet
+    int j; //index for loops
+    int min_arr = -1; //arrival time of the first process to arrive
+    int total = 0; //total time it takes to finish
+    FILE *output = fopen("sjf.txt", "w"); //output file
     for (j = 0; j < n; j++) {
         processes[j].remaining = processes[j].burst;
         total += processes[j].burst;
@@ -118,11 +118,10 @@ void shortest_job_first(process_info* processes, int n) {
             min_arr = processes[j].arrival;
         }
     }
-
     total += min_arr;
 
     for (j = 0; j < total; j++) {
-        fprintf(output, "%-2d|", j);
+        fprintf(output, "%-2d|", j); //print first line of output
     }
     fprintf(output, "\n");
     int f = 0;
@@ -149,7 +148,7 @@ void shortest_job_first(process_info* processes, int n) {
                 cur->response = t - cur->arrival;
             }
             cur->remaining--;
-            if (cur->remaining == 0) {
+            if (cur->remaining == 0) { //it will run until it finishes and then update its info
                 cur->stay = t - cur->arrival + 1;
                 cur->waiting = cur->stay - cur->burst;
                 cur = NULL;
@@ -165,7 +164,7 @@ void shortest_job_first(process_info* processes, int n) {
 
     char st[80];
     memset(st, ' ', 79);
-    for (j = 0; j < n; j++) {
+    for (j = 0; j < n; j++) { //output when processes arrive (if more than one in a single instant only the last one will be shown)
         char src[22];
         sprintf(src, "^%1s ", processes[j].name);
         memcpy(st + (processes[j].arrival) * 3, src, 3);
@@ -202,7 +201,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    process_info* processes = malloc(n * sizeof(process_info));
+    process_info* processes = malloc(n * sizeof(process_info)); //allocate memory for n processes
 
     int i;
     for (i = 0; i < n; i++) {
